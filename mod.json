@@ -10,5 +10,15 @@
 	"name": "Daily Streak",
 	"version": "v0.1.0",
 	"developer": "SorkoPiko",
-	"description": "View your daily/weekly streak"
+	"description": "View your daily/weekly streak",
+	"links": {
+		"source": "https://github.com/SorkoPiko/DailyStreak"
+	},
+	"dependencies": [
+		{
+			"id": "geode.node-ids",
+			"version": ">=v1.13.1",
+			"importance": "required"
+		}
+	]
 }
