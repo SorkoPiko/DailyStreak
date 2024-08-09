@@ -8,3 +8,6 @@
 
 ## 1.0.2
 * Fixed a not so obvious bug (Thanks [qimiko](https://github.com/qimiko/) again!)
+
+## 1.0.3
+* Changed positioning of streak indicator to a prettier place.
