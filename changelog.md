@@ -2,3 +2,6 @@
 
 ## 1.0.0
 * Initial release! Shows your streak on daily and weekly levels.
+
+## 1.0.1
+* Fixed a very obvious bug (Thanks [qimiko](https://github.com/qimiko/)!)
