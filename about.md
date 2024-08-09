@@ -1,3 +1,5 @@
-# Template Mod
+# Daily Streak
 
-Edit about.md to change this
+Shows your daily/weekly level streak!
+
+Made in 1 day :D
