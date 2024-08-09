@@ -8,7 +8,7 @@
 	},
 	"id": "sorkopiko.dailystreak",
 	"name": "Daily Streak",
-	"version": "v1.0.3",
+	"version": "v1.0.4",
 	"developer": "SorkoPiko",
 	"description": "View your daily/weekly streak",
 	"links": {
@@ -20,5 +20,13 @@
 			"version": ">=v1.13.1",
 			"importance": "required"
 		}
-	]
+	],
+	"settings": {
+		"goldText": {
+			"name": "Gold Text",
+			"type": "bool",
+			"default": false,
+			"description": "Changes the text colour to gold"
+		}
+	}
 }

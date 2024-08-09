@@ -8,8 +8,9 @@ bool DSDailyLevelPage::init(const GJTimedLevelType type) {
     const auto streak = calculateStreak(m_type);
     const auto streakString = fmt::format("Streak: {}", streak);
     const auto winSize = CCDirector::sharedDirector()->getWinSize();
+    const auto colour = Mod::get()->getSettingValue<bool>("goldText") ? "goldFont.fnt" : "bigFont.fnt";
 
-    m_fields->m_label = CCLabelBMFont::create(streakString.c_str(), "bigFont.fnt");
+    m_fields->m_label = CCLabelBMFont::create(streakString.c_str(), colour);
     m_fields->m_label->setScale(0.4f);
     m_fields->m_label->setAnchorPoint({0, 0});
     m_fields->m_label->setPosition({(winSize.width / 2) - 183, (winSize.height / 2) + 51});
