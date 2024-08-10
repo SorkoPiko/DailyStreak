@@ -7,5 +7,4 @@ Shows your daily/weekly level streak!
 - **Automatic streak calculation** based on your **sava data** - this isn't a simple timer, it actually checks.
 - **Customisable** - choose between white and gold text colour for the streak indicator.
 
-
-Made in 1 day :D
+**one-day mod** challenge (1/7)
