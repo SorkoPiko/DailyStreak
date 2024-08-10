@@ -1,5 +1,8 @@
 # Daily Streak Changelog
 
+## 1.0.5
+* Added discord link
+
 ## 1.0.4
 * Added a setting that lets you choose between white and gold text color for the streak indicator (Thanks [anh](https://github.com/catgirlanh) for the suggestion!)
 * Fixed changelog.
