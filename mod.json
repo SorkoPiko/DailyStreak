@@ -8,11 +8,12 @@
 	},
 	"id": "sorkopiko.dailystreak",
 	"name": "Daily Streak",
-	"version": "v1.0.4",
+	"version": "v1.0.5",
 	"developer": "SorkoPiko",
 	"description": "View your daily/weekly streak",
 	"links": {
-		"source": "https://github.com/SorkoPiko/DailyStreak"
+		"source": "https://github.com/SorkoPiko/DailyStreak",
+		"community": "https://discord.gg/8uPFxhxBX9"
 	},
 	"dependencies": [
 		{
