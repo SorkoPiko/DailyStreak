@@ -14,8 +14,6 @@ class $modify(DSDailyLevelPage, DailyLevelPage) {
     bool init(GJTimedLevelType type);
 
     void updateLabel();
-
-    [[nodiscard]] static int calculateStreak(const GJTimedLevelType& type);
 };
 
 #endif

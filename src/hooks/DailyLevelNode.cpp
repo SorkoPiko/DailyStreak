@@ -6,6 +6,8 @@ using namespace geode::prelude;
 class $modify(DSDailyLevelNode, DailyLevelNode) {
     void onClaimReward(CCObject* sender) {
         DailyLevelNode::onClaimReward(sender);
-        static_cast<DSDailyLevelPage*>(m_page)->updateLabel();
+        if (!Loader::get()->isModLoaded("ninxout.redash")) {
+            static_cast<DSDailyLevelPage*>(m_page)->updateLabel();
+        }
     }
 };

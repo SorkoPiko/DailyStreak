@@ -1,5 +1,8 @@
 # Daily Streak Changelog
 
+## 1.1.0
+* Added support for Overcharged Main Menu.
+
 ## 1.0.5
 * Added discord link
 
