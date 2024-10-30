@@ -1,5 +1,8 @@
 # Daily Streak Changelog
 
+## 1.1.1
+* Fixed a bug involving the recent "double daily", where the streak would be reset.
+
 ## 1.1.0
 * Added support for Overcharged Main Menu.
 

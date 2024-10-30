@@ -17,8 +17,12 @@ int Streak::calculate(const GJTimedLevelType &type) {
         return a->m_dailyID.value() > b->m_dailyID.value();
     });
 
+    constexpr std::array doubleDaily = {2893, 2894};
+
     auto streak = 0;
     auto lastID = 0;
+    auto doubleDailyCompleted = false;
+    auto doubleDailyFailed = false;
 
     for (const auto& level : levels) {
         if (!lastID) {
@@ -30,7 +34,35 @@ int Streak::calculate(const GJTimedLevelType &type) {
             lastID = level->m_dailyID.value()+1;
         }
 
-        if (level->m_normalPercent.value() == 100 && level->m_dailyID.value() == lastID-1) {
+        const auto completed = level->m_normalPercent.value() == 100;
+        auto isNextLevel = level->m_dailyID.value() == lastID-1;
+
+        if (!isNextLevel && std::ranges::find(doubleDaily, lastID-1) != doubleDaily.end()) {
+            if (doubleDailyCompleted) {
+                isNextLevel = level->m_dailyID.value() == lastID-2;
+            } else if (doubleDailyFailed) {
+                break;
+            }
+            doubleDailyFailed = true;
+        }
+
+        if (std::ranges::find(doubleDaily, level->m_dailyID.value()) != doubleDaily.end()) {
+            if (isNextLevel) {
+                lastID = level->m_dailyID.value();
+
+                if (completed) {
+                    if (doubleDailyCompleted) continue;
+                    doubleDailyCompleted = true;
+                    ++streak;
+                    continue;
+                }
+                if (doubleDailyFailed) break;
+                doubleDailyFailed = true;
+                continue;
+            }
+        }
+
+        if (completed && isNextLevel) {
             lastID = level->m_dailyID.value();
             ++streak;
         } else break;
