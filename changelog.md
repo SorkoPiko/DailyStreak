@@ -1,5 +1,8 @@
 # Daily Streak Changelog
 
+## 1.1.2
+* Version bump
+
 ## 1.1.1
 * Fixed a bug involving the recent "double daily", where the streak would be reset.
 
