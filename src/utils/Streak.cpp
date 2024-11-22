@@ -8,7 +8,16 @@ int Streak::calculate(const GJTimedLevelType &type) {
     std::vector<GJGameLevel*> levels;
 
     for (auto [key, level] : rawData) {
-        if (const auto& levelType = level->m_dailyID.value() < 100000 ? GJTimedLevelType::Daily : GJTimedLevelType::Weekly; levelType == type) {
+        GJTimedLevelType levelType;
+        if (level->m_dailyID.value() <= 100000) {
+            levelType = GJTimedLevelType::Daily;
+        } else if (level->m_dailyID.value() <= 200000) {
+            levelType = GJTimedLevelType::Weekly;
+        } else {
+            levelType = GJTimedLevelType::Event;
+        }
+
+        if (levelType == type) {
             levels.push_back(level);
         }
     }

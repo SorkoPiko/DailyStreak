@@ -1,5 +1,8 @@
 # Daily Streak Changelog
 
+## 1.1.3
+* Event Level support
+
 ## 1.1.2
 * Version bump
 
