@@ -15,15 +15,17 @@ bool DSMenuLayer::init() {
         const auto dailyMenu = this->getChildByID("ninxout.redash/redash-menu")->getChildByID("ninxout.redash/dailies-menu");
         const auto dailyNode = dailyMenu->getChildByID("daily-node")->getChildByID("main-node");
         const auto weeklyNode = dailyMenu->getChildByID("weekly-node")->getChildByID("main-node");
-        if (!dailyNode || !weeklyNode) return false;
+        const auto eventNode = dailyMenu->getChildByID("event-node")->getChildByID("main-node");
+        if (!dailyNode || !weeklyNode || !eventNode) return false;
         const auto colour = Mod::get()->getSettingValue<bool>("goldText") ? "goldFont.fnt" : "bigFont.fnt";
         const auto dailyStreak = Streak::calculate(GJTimedLevelType::Daily);
         const auto weeklyStreak = Streak::calculate(GJTimedLevelType::Weekly);
+        const auto eventStreak = Streak::calculate(GJTimedLevelType::Event);
 
         m_fields->m_dailyLabel = CCLabelBMFont::create(fmt::format("Streak: {}", dailyStreak).c_str(), colour);
         m_fields->m_dailyLabel->setScale(0.3f);
         m_fields->m_dailyLabel->setAnchorPoint({0, 0});
-        m_fields->m_dailyLabel->setPosition({-0, dailyNode->getScaledContentHeight()});
+        m_fields->m_dailyLabel->setPosition({7.5, dailyNode->getScaledContentHeight()+10});
         m_fields->m_dailyLabel->setID("streak-label"_spr);
         if (!dailyStreak) m_fields->m_dailyLabel->setVisible(false);
         dailyNode->addChild(m_fields->m_dailyLabel);
@@ -31,10 +33,18 @@ bool DSMenuLayer::init() {
         m_fields->m_weeklyLabel = CCLabelBMFont::create(fmt::format("Streak: {}", weeklyStreak).c_str(), colour);
         m_fields->m_weeklyLabel->setScale(0.3f);
         m_fields->m_weeklyLabel->setAnchorPoint({0, 0});
-        m_fields->m_weeklyLabel->setPosition({0, weeklyNode->getScaledContentHeight()});
+        m_fields->m_weeklyLabel->setPosition({7.5, weeklyNode->getScaledContentHeight()+10});
         m_fields->m_weeklyLabel->setID("streak-label"_spr);
         if (!weeklyStreak) m_fields->m_weeklyLabel->setVisible(false);
         weeklyNode->addChild(m_fields->m_weeklyLabel);
+
+        m_fields->m_eventLabel = CCLabelBMFont::create(fmt::format("Streak: {}", eventStreak).c_str(), colour);
+        m_fields->m_eventLabel->setScale(0.3f);
+        m_fields->m_eventLabel->setAnchorPoint({0, 0});
+        m_fields->m_eventLabel->setPosition({7.5, eventNode->getScaledContentHeight()+10});
+        m_fields->m_eventLabel->setID("streak-label"_spr);
+        if (!eventStreak) m_fields->m_eventLabel->setVisible(false);
+        eventNode->addChild(m_fields->m_eventLabel);
     }
 
     return true;
