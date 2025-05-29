@@ -2,7 +2,16 @@
 
 using namespace geode::prelude;
 
-int Streak::calculate(const GJTimedLevelType &type) {
+int Streak::calculate(const GJTimedLevelType& type) {
+    const std::vector<std::array<int, 2>> doubleDailies = {
+        { 2983, 2984 },
+        { 3095, 3096 }
+    };
+
+    return calculate(type, doubleDailies);
+}
+
+int Streak::calculate(const GJTimedLevelType &type, const std::vector<std::array<int, 2>>& doubleDailies) {
     const auto glm = GameLevelManager::sharedState();
     auto rawData = CCDictionaryExt<gd::string, GJGameLevel*>(glm->m_dailyLevels);
     std::vector<GJGameLevel*> levels;
@@ -26,8 +35,6 @@ int Streak::calculate(const GJTimedLevelType &type) {
         return a->m_dailyID.value() > b->m_dailyID.value();
     });
 
-    constexpr std::array doubleDaily = {2893, 2894};
-
     auto streak = 0;
     auto lastID = 0;
     auto doubleDailyCompleted = false;
@@ -46,28 +53,30 @@ int Streak::calculate(const GJTimedLevelType &type) {
         const auto completed = level->m_normalPercent.value() == 100;
         auto isNextLevel = level->m_dailyID.value() == lastID-1;
 
-        if (!isNextLevel && std::ranges::find(doubleDaily, lastID-1) != doubleDaily.end()) {
-            if (doubleDailyCompleted) {
-                isNextLevel = level->m_dailyID.value() == lastID-2;
-            } else if (doubleDailyFailed) {
-                break;
+        for (const auto& doubleDaily : doubleDailies) {
+            if (!isNextLevel && std::ranges::find(doubleDaily, lastID-1) != doubleDaily.end()) {
+                if (doubleDailyCompleted) {
+                    isNextLevel = level->m_dailyID.value() == lastID-2;
+                } else if (doubleDailyFailed) {
+                    break;
+                }
+                doubleDailyFailed = true;
             }
-            doubleDailyFailed = true;
-        }
 
-        if (std::ranges::find(doubleDaily, level->m_dailyID.value()) != doubleDaily.end()) {
-            if (isNextLevel) {
-                lastID = level->m_dailyID.value();
+            if (std::ranges::find(doubleDaily, level->m_dailyID.value()) != doubleDaily.end()) {
+                if (isNextLevel) {
+                    lastID = level->m_dailyID.value();
 
-                if (completed) {
-                    if (doubleDailyCompleted) continue;
-                    doubleDailyCompleted = true;
-                    ++streak;
+                    if (completed) {
+                        if (doubleDailyCompleted) continue;
+                        doubleDailyCompleted = true;
+                        ++streak;
+                        continue;
+                    }
+                    if (doubleDailyFailed) break;
+                    doubleDailyFailed = true;
                     continue;
                 }
-                if (doubleDailyFailed) break;
-                doubleDailyFailed = true;
-                continue;
             }
         }
 
