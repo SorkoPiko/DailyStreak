@@ -1,5 +1,10 @@
 # Daily Streak Changelog
 
+## 1.2.0
+* Fixed #4: Streak indicator is now below the skip button.
+* Fixed #6: Streak indicator now once again works with Overcharged Main Menu.
+* Fixed #7: Added support for the new double daily.
+
 ## 1.1.3
 * Event Level support
 
