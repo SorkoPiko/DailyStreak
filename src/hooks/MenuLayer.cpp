@@ -64,9 +64,13 @@ bool DSMenuLayer::init() {
                 if (line.empty()) continue;
 
                 if (const auto commaPos = line.find(','); commaPos != std::string::npos) {
-                    const int first = std::stoi(line.substr(0, commaPos));
-                    const int second = std::stoi(line.substr(commaPos + 1));
-                    doubleDailies.push_back({first, second});
+                    try {
+                        const int first = std::stoi(line.substr(0, commaPos));
+                        const int second = std::stoi(line.substr(commaPos + 1));
+                        doubleDailies.push_back({first, second});
+                    } catch (const std::exception &e) {
+                        log::warn("Failed to parse line '{}': {}", line, e.what());
+                    }
                 }
             }
 
