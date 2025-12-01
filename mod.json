@@ -1,5 +1,5 @@
 {
-	"geode": "4.5.0",
+	"geode": "4.10.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -8,7 +8,7 @@
 	},
 	"id": "sorkopiko.dailystreak",
 	"name": "Daily Streak",
-	"version": "v1.2.0",
+	"version": "v1.3.0",
 	"developer": "SorkoPiko",
 	"description": "View your daily/weekly streak",
 	"links": {

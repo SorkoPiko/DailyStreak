@@ -1,5 +1,8 @@
 # Daily Streak Changelog
 
+## 1.3.0
+* Fixed #8: Double dailies are automatically downloaded on first launch.
+
 ## 1.2.0
 * Fixed #4: Streak indicator is now below the skip button.
 * Fixed #6: Streak indicator now once again works with Overcharged Main Menu.

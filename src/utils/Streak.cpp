@@ -2,16 +2,17 @@
 
 using namespace geode::prelude;
 
-int Streak::calculate(const GJTimedLevelType& type) {
-    const std::vector<std::array<int, 2>> doubleDailies = {
-        { 2983, 2984 },
-        { 3095, 3096 }
-    };
+std::vector<std::array<int, 2>> Streak::doubleDailies = {
+    { 2983, 2984 },
+    { 3095, 3096 },
+    { 100431, 100432 }
+};
 
+int Streak::calculate(const GJTimedLevelType& type) {
     return calculate(type, doubleDailies);
 }
 
-int Streak::calculate(const GJTimedLevelType &type, const std::vector<std::array<int, 2>>& doubleDailies) {
+int Streak::calculate(const GJTimedLevelType &type, const std::vector<std::array<int, 2>> &doubleDailies) {
     const auto glm = GameLevelManager::sharedState();
     auto rawData = CCDictionaryExt<gd::string, GJGameLevel*>(glm->m_dailyLevels);
     std::vector<GJGameLevel*> levels;
@@ -87,4 +88,8 @@ int Streak::calculate(const GJTimedLevelType &type, const std::vector<std::array
     }
 
     return streak;
+}
+
+void Streak::setDoubles(const std::vector<std::array<int, 2>> &doubleDailies) {
+    Streak::doubleDailies = doubleDailies;
 }

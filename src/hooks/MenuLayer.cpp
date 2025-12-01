@@ -47,6 +47,39 @@ bool DSMenuLayer::init() {
         eventNode->addChild(m_fields->m_eventLabel);
     }
 
+    m_fields->m_listener.bind([] (web::WebTask::Event* e) {
+        if (const auto res = e->getValue()) {
+            if (!res->ok()) {
+                log::warn("Request Failed");
+                return;
+            }
+
+            std::vector<std::array<int, 2>> doubleDailies;
+
+            const auto csvData = res->string().unwrapOrDefault();
+            std::istringstream stream(csvData);
+            std::string line;
+
+            while (std::getline(stream, line)) {
+                if (line.empty()) continue;
+
+                if (const auto commaPos = line.find(','); commaPos != std::string::npos) {
+                    const int first = std::stoi(line.substr(0, commaPos));
+                    const int second = std::stoi(line.substr(commaPos + 1));
+                    doubleDailies.push_back({first, second});
+                }
+            }
+
+            Streak::setDoubles(doubleDailies);
+            log::info("Set Dailies: {}", doubleDailies.size());
+        } else if (e->isCancelled()) {
+            log::warn("Request Cancelled");
+        }
+    });
+
+    auto req = web::WebRequest();
+    m_fields->m_listener.setFilter(req.get("https://gist.githubusercontent.com/SorkoPiko/9139f819f5d97a14eeb7b73c7cd1859e/raw/f01aaa5a0b540b789498fce98c035d70e8a870c8/doubleDailies.csv"));
+
     return true;
 }
 
