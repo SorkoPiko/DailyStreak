@@ -82,7 +82,7 @@ bool DSMenuLayer::init() {
     });
 
     auto req = web::WebRequest();
-    m_fields->m_listener.setFilter(req.get("https://gist.githubusercontent.com/SorkoPiko/9139f819f5d97a14eeb7b73c7cd1859e/raw/f01aaa5a0b540b789498fce98c035d70e8a870c8/doubleDailies.csv"));
+    m_fields->m_listener.setFilter(req.get("https://gist.githubusercontent.com/SorkoPiko/9139f819f5d97a14eeb7b73c7cd1859e/raw/doubleDailies.csv"));
 
     return true;
 }
