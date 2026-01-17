@@ -64,13 +64,13 @@ bool DSMenuLayer::init() {
                 if (line.empty()) continue;
 
                 if (const auto commaPos = line.find(','); commaPos != std::string::npos) {
-                    try {
-                        const int first = std::stoi(line.substr(0, commaPos));
-                        const int second = std::stoi(line.substr(commaPos + 1));
-                        doubleDailies.push_back({first, second});
-                    } catch (const std::exception &e) {
-                        log::warn("Failed to parse line '{}': {}", line, e.what());
+                    const auto first = numFromString<int>(line.substr(0, commaPos));
+                    const auto second = numFromString<int>(line.substr(commaPos + 1));
+                    if (first.err() || second.err()) {
+                        log::warn("Failed to parse line '{}': {}", line, first.err());
+                        continue;
                     }
+                    doubleDailies.push_back({first.unwrap(), second.unwrap()});
                 }
             }
 

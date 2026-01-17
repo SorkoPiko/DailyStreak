@@ -1,6 +1,6 @@
 # Daily Streak Changelog
 
-## 1.3.1
+## 1.3.2
 * Fixed #8: Double dailies are automatically downloaded on first launch.
 
 ## 1.2.0
