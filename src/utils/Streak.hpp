@@ -7,9 +7,10 @@ class Streak {
 protected:
     static std::vector<std::array<int, 2>> doubleDailies;
 
+    static std::optional<std::array<int, 2>> getDoubleDailyPair(int levelID);
+
 public:
     static int calculate(const GJTimedLevelType &type);
-    static int calculate(const GJTimedLevelType &type, const std::vector<std::array<int, 2>> &doubleDailies);
     static void setDoubles(const std::vector<std::array<int, 2>> &doubleDailies);
 };
 

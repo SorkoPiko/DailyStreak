@@ -9,10 +9,6 @@ std::vector<std::array<int, 2>> Streak::doubleDailies = {
 };
 
 int Streak::calculate(const GJTimedLevelType& type) {
-    return calculate(type, doubleDailies);
-}
-
-int Streak::calculate(const GJTimedLevelType &type, const std::vector<std::array<int, 2>> &doubleDailies) {
     const auto glm = GameLevelManager::sharedState();
     auto rawData = CCDictionaryExt<gd::string, GJGameLevel*>(glm->m_dailyLevels);
     std::vector<GJGameLevel*> levels;
@@ -32,51 +28,55 @@ int Streak::calculate(const GJTimedLevelType &type, const std::vector<std::array
         }
     }
 
-    std::sort(levels.begin(), levels.end(), [](GJGameLevel* a, GJGameLevel* b) {
+    std::ranges::sort(levels, [](GJGameLevel* a, GJGameLevel* b) {
         return a->m_dailyID.value() > b->m_dailyID.value();
     });
 
     auto streak = 0;
     auto lastID = 0;
-    auto doubleDailyCompleted = false;
-    auto doubleDailyFailed = false;
+    std::vector<int> skipIds;
 
     for (const auto& level : levels) {
+        const int levelID = level->m_dailyID.value();
+        if (std::ranges::find(skipIds, levelID) != skipIds.end()) {
+            lastID = levelID;
+            continue;
+        }
+
         if (!lastID) {
             if (level->m_normalPercent.value() != 100) {
-                lastID = level->m_dailyID.value();
+                lastID = levelID;
                 continue;
             }
 
-            lastID = level->m_dailyID.value()+1;
+            lastID = levelID+1;
         }
 
         const auto completed = level->m_normalPercent.value() == 100;
-        auto isNextLevel = level->m_dailyID.value() == lastID-1;
+        bool isNextLevel = levelID == lastID-1;
+        auto pair = getDoubleDailyPair(levelID);
 
-        for (const auto& doubleDaily : doubleDailies) {
-            if (!isNextLevel && std::ranges::find(doubleDaily, lastID-1) != doubleDaily.end()) {
-                if (doubleDailyCompleted) {
-                    isNextLevel = level->m_dailyID.value() == lastID-2;
-                } else if (doubleDailyFailed) {
-                    break;
-                }
-                doubleDailyFailed = true;
-            }
+        if (pair.has_value()) {
+            std::vector sortedIds = { pair->at(0), pair->at(1) };
+            std::ranges::sort(sortedIds, std::greater<int>());
 
-            if (std::ranges::find(doubleDaily, level->m_dailyID.value()) != doubleDaily.end()) {
-                if (isNextLevel) {
-                    lastID = level->m_dailyID.value();
-
-                    if (completed) {
-                        if (doubleDailyCompleted) continue;
-                        doubleDailyCompleted = true;
+            if (sortedIds[0] == levelID) {
+                if (completed) {
+                    if (isNextLevel) {
+                        skipIds.push_back(sortedIds[1]);
+                        lastID = sortedIds[1];
                         ++streak;
                         continue;
                     }
-                    if (doubleDailyFailed) break;
-                    doubleDailyFailed = true;
+                } else {
+                    lastID = level->m_dailyID.value();
                     continue;
+                }
+            } else if (sortedIds[1] == levelID) {
+                if (!completed) {
+                    break;
+                } else if (levelID == lastID-2) {
+                    isNextLevel = true;
                 }
             }
         }
@@ -90,6 +90,20 @@ int Streak::calculate(const GJTimedLevelType &type, const std::vector<std::array
     return streak;
 }
 
-void Streak::setDoubles(const std::vector<std::array<int, 2>> &doubleDailies) {
+std::optional<std::array<int, 2>> Streak::getDoubleDailyPair(const int levelID) {
+    for (const auto& pair : doubleDailies) {
+        if (pair[0] == levelID || pair[1] == levelID) {
+            return pair;
+        }
+    }
+    return std::nullopt;
+}
+
+void Streak::setDoubles(const std::vector<std::array<int, 2>>& doubleDailies) {
+    for (const auto& pair : doubleDailies) {
+        if (abs(pair[0] - pair[1]) != 1) {
+            log::warn("Invalid double daily pair: {}, {}", pair[0], pair[1]);
+        }
+    }
     Streak::doubleDailies = doubleDailies;
 }

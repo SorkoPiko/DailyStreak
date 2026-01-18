@@ -1,5 +1,8 @@
 # Daily Streak Changelog
 
+## 1.3.3
+* Fixed a bug where completing the first of a double daily wouldn't count towards the streak.
+
 ## 1.3.2
 * Fixed #8: Double dailies are automatically downloaded on first launch.
 
