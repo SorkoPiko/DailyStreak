@@ -1,5 +1,8 @@
 # Daily Streak Changelog
 
+## 1.3.4
+* Updated to Geode 5.0.0.
+
 ## 1.3.3
 * Fixed a bug where completing the first of a double daily wouldn't count towards the streak.
 

@@ -1,27 +1,23 @@
 {
-	"geode": "4.10.0",
+	"geode": "5.0.0",
 	"gd": {
-		"win": "2.2074",
-		"android": "2.2074",
-		"mac": "2.2074",
-		"ios": "2.2074"
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
 	},
 	"id": "sorkopiko.dailystreak",
 	"name": "Daily Streak",
-	"version": "v1.3.3",
+	"version": "v1.3.4",
 	"developer": "SorkoPiko",
 	"description": "View your daily/weekly streak",
 	"links": {
 		"source": "https://github.com/SorkoPiko/DailyStreak",
 		"community": "https://discord.gg/8uPFxhxBX9"
 	},
-	"dependencies": [
-		{
-			"id": "geode.node-ids",
-			"version": ">=v1.21.1",
-			"importance": "required"
-		}
-	],
+	"dependencies": {
+		"geode.node-ids": ">=v1.23.0"
+	},
 	"settings": {
 		"goldText": {
 			"name": "Gold Text",

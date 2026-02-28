@@ -1,6 +1,11 @@
 #ifndef STREAK_HPP
 #define STREAK_HPP
 
+#include <Geode/Prelude.hpp>
+#include <Geode/Enums.hpp>
+#include <optional>
+#include <vector>
+
 using namespace geode::prelude;
 
 class Streak {

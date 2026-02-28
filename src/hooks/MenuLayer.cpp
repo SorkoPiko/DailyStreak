@@ -5,7 +5,7 @@
 using namespace geode::prelude;
 
 void DSMenuLayer::onModify(auto &self) {
-    self.setHookPriority("MenuLayer::init", INT_MIN/2);
+    if (Hook* hook = self.getHook("MenuLayer::init").unwrapOr(nullptr)) hook->setPriority(INT_MIN/2);
 }
 
 bool DSMenuLayer::init() {
@@ -47,16 +47,17 @@ bool DSMenuLayer::init() {
         eventNode->addChild(m_fields->m_eventLabel);
     }
 
-    m_fields->m_listener.bind([] (web::WebTask::Event* e) {
-        if (const auto res = e->getValue()) {
-            if (!res->ok()) {
+    m_fields->m_listener.spawn(
+        web::WebRequest().get("https://gist.githubusercontent.com/SorkoPiko/9139f819f5d97a14eeb7b73c7cd1859e/raw/doubleDailies.csv"),
+        [] (const web::WebResponse& e) {
+            if (!e.ok()) {
                 log::warn("Request Failed");
                 return;
             }
 
             std::vector<std::array<int, 2>> doubleDailies;
 
-            const auto csvData = res->string().unwrapOrDefault();
+            const auto csvData = e.string().unwrapOrDefault();
             std::istringstream stream(csvData);
             std::string line;
 
@@ -76,13 +77,8 @@ bool DSMenuLayer::init() {
 
             Streak::setDoubles(doubleDailies);
             log::info("Set Dailies: {}", doubleDailies.size());
-        } else if (e->isCancelled()) {
-            log::warn("Request Cancelled");
         }
-    });
-
-    auto req = web::WebRequest();
-    m_fields->m_listener.setFilter(req.get("https://gist.githubusercontent.com/SorkoPiko/9139f819f5d97a14eeb7b73c7cd1859e/raw/doubleDailies.csv"));
+    );
 
     return true;
 }

@@ -1,5 +1,10 @@
 #include "Streak.hpp"
 
+#include <Geode/utils/cocos.hpp>
+#include <Geode/binding/GameLevelManager.hpp>
+#include <Geode/binding/GJGameLevel.hpp>
+#include <Geode/loader/Log.hpp>
+
 using namespace geode::prelude;
 
 std::vector<std::array<int, 2>> Streak::doubleDailies = {
